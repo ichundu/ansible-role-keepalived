@@ -1,0 +1,45 @@
+---
+# tasks file for ichundu.keepalived
+
+- include_tasks: variables.yml
+
+- name: Install keepalived
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ keepalived_packages }}"
+
+- name: Setup kernel parameters via sysctl
+  sysctl:
+    name: "{{ item.name }}"
+    value: "{{ item.value }}"
+    reload: "{{ item.reload | default(omit) }}"
+    state: "{{ item.state | default('present') }}"
+    sysctl_set: "{{ item.sysctl_set | default(true) }}"
+  with_items: "{{ keepalived_sysctl }}"
+
+- name: Configure keepalived
+  template:
+    src: keepalived.conf.j2
+    dest: /etc/keepalived/keepalived.conf
+  notify: restart keepalived
+
+- name: Set keepalived daemon options for RedHat family distros
+  template:
+    src: "{{ ansible_os_family }}/keepalived.j2"
+    dest: /etc/sysconfig/keepalived
+  notify: restart keepalived
+  when: ansible_os_family == "RedHat"
+
+- name: Set keepalived daemon options Debian family distros
+  template:
+    src: "{{ ansible_os_family }}/keepalived.j2"
+    dest: /etc/default/keepalived
+  notify: restart keepalived
+  when: ansible_os_family == "Debian"
+
+- name: Start and enable keepalived
+  service:
+    name: keepalived
+    state: started
+    enabled: true

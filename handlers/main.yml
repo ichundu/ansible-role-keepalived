@@ -1,0 +1,7 @@
+---
+# handlers file for ichundu.keepalived
+
+- name: restart keepalived
+  service:
+    name: keepalived
+    state: restarted

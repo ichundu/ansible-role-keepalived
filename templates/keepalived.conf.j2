@@ -1,0 +1,21 @@
+# {{ ansible_managed }}
+
+{% if keepalived_conf_global_defs is defined and keepalived_conf_global_defs != '' %}
+{{ keepalived_conf_global_defs }}
+{% endif %}
+
+{% if keepalived_conf_vrrp_script is defined and keepalived_conf_vrrp_script != '' %}
+{{ keepalived_conf_vrrp_script }}
+{% endif %}
+
+{% if keepalived_conf_vrrp_instance is defined and keepalived_conf_vrrp_instance != '' %}
+{{ keepalived_conf_vrrp_instance }}
+{% endif %}
+
+{% if keepalived_conf_virtual_server is defined and keepalived_conf_virtual_server != '' %}
+{{ keepalived_conf_virtual_server }}
+{% endif %}
+
+{% if keepalived_conf_extras is defined and keepalived_conf_extras != '' %}
+{{ keepalived_conf_extras }}
+{% endif %}

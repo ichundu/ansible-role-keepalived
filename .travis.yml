@@ -1,0 +1,39 @@
+---
+language: python
+python: "2.7"
+services:
+  - docker
+sudo: required
+
+# Install ansible
+addons:
+  apt:
+    packages:
+      - python-pip
+
+install:
+  # Setup python virtualenv
+  - virtualenv --no-site-packages .venv && source .venv/bin/activate
+
+  # Install ansible molecule and docker
+  - pip install ansible molecule docker-py
+
+  # Temporary hack until molecule gets updated to support testinfra 1.12.0
+  # https://github.com/metacloud/molecule/issues/1262
+  - pip install --upgrade testinfra
+
+  # Check ansible version
+  - ansible --version
+
+  # Check molecule version
+  - molecule --version
+
+script:
+  - molecule test
+
+branches:
+  only:
+    - master
+
+notifications:
+webhooks: https://galaxy.ansible.com/api/v1/notifications/

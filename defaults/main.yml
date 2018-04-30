@@ -1,0 +1,100 @@
+---
+# defaults file for ichundu.keepalived
+
+keepalived_packages:
+  - keepalived
+  - psmisc
+
+keepalived_daemon_options: ""
+
+keepalived_sysctl:
+  - name: "net.ipv4.ip_nonlocal_bind"
+    value: "1"
+    reload: true
+    sysctl_set: true
+  - name: "net.ipv4.ip_forward"
+    value: "1"
+    reload: true
+    sysctl_set: true
+
+### Global definitions configuration snippet:
+
+# keepalived_conf_global_defs: |
+#   global_defs {
+#     notification_email {
+#       acassen@firewall.loc
+#       failover@firewall.loc
+#       sysadmin@firewall.loc
+#     }
+#     notification_email_from Alexandre.Cassen@firewall.loc
+#     smtp_server 192.168.200.1
+#     smtp_connect_timeout 30
+#     router_id LVS_DEVEL
+#     vrrp_skip_check_adv_addr
+#     vrrp_strict
+#     vrrp_garp_interval 0
+#     vrrp_gna_interval 0
+#   }
+
+
+### VRRP script configuration snippet:
+
+# keepalived_conf_vrrp_script: |
+#   vrrp_script chk_haproxy {
+#       script "killall -0 haproxy"
+#   }
+
+
+### VRRP instance configuration snippet:
+
+# keepalived_conf_vrrp_instance: |
+#   vrrp_instance VI_1 {
+#       state MASTER
+#       interface eth0
+#       virtual_router_id 51
+#       priority 100
+#       advert_int 1
+#       authentication {
+#           auth_type PASS
+#           auth_pass 1111
+#       }
+#       virtual_ipaddress {
+#           192.168.200.16
+#           192.168.200.17
+#           192.168.200.18
+#       }
+#   }
+
+
+### Virtual servers configuration snippet:
+
+# keepalived_conf_virtual_server: |
+#   virtual_server 192.168.200.100 443 {
+#       delay_loop 6
+#       lb_algo rr
+#       lb_kind NAT
+#       persistence_timeout 50
+#       protocol TCP
+
+#       real_server 192.168.201.100 443 {
+#           weight 1
+#           SSL_GET {
+#               url {
+#                 path /
+#                 digest ff20ad2481f97b1754ef3e12ecd3a9cc
+#               }
+#               url {
+#                 path /mrtg/
+#                 digest 9b3a0c85a887a256d6939da88aabd8cd
+#               }
+#               connect_timeout 3
+#               nb_get_retry 3
+#               delay_before_retry 3
+#           }
+#       }
+#   }
+
+
+### Extra configurations snippet:
+
+# keepalived_conf_extras: |
