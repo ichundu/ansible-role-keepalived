@@ -31,7 +31,7 @@
   notify: restart keepalived
   when: ansible_os_family == "RedHat"
 
-- name: Set keepalived daemon options Debian family distros
+- name: Set keepalived daemon options for Debian family distros
   template:
     src: "{{ ansible_os_family }}/keepalived.j2"
     dest: /etc/default/keepalived
