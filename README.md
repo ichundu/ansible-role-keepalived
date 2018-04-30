@@ -1,7 +1,7 @@
 Role Name: keepalived
 =========
 
-[![Build Status](https://travis-ci.org/ichundu/ansible-role-keepalived.svg?branch=master)](https://travis-ci.org/ichundu/ansible-role-keepalived.svg?branch=master)
+[![Build Status](https://travis-ci.org/ichundu/ansible-role-keepalived.svg?branch=master)](https://travis-ci.org/ichundu/ansible-role-keepalived)
 
 Install and configure keepalived on Enterprise Linux (RHEL, CentOS etc.), Debian and Ubuntu systems.
 
